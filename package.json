@@ -1,0 +1,22 @@
+{
+  "name": "image-uploader",
+  "version": "1.0.0",
+  "description": "uploading images app with their preview and possibility to send them to the server ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RostyslavN/image-uploader.git"
+  },
+  "author": "Novak Rostyslav <novak.rostyslav@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RostyslavN/image-uploader/issues"
+  },
+  "homepage": "https://github.com/RostyslavN/image-uploader#readme",
+  "devDependencies": {
+    "parcel-bundler": "1.12.5"
+  }
+}
