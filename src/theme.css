@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 body {
   background: #666;
@@ -9,4 +9,40 @@ body {
   padding-top: 5rem;
   width: 800px;
   margin: 0 auto;
+}
+.card {
+  border-radius: 6px;
+  background: #fff;
+  padding: 1rem;
+  box-shadow: 2px 3px 10px rgba(0 0 0 .2);
+}
+.btn {
+  color: #42b983;
+  position: relative;
+  border-radius: 99px;
+  border: 1px solid #42b983;
+  text-transform: uppercase;
+  /* text-decoration: none; */
+  padding: .5rem 1.5rem;
+  font-weight: 700;
+  outline: none;
+  background: #fff;
+  transition: all .2s;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+.btn.primary {
+  background: #42b983;
+  color: #fff;
+}
+.btn:active {
+  box-shadow: inset 1px 1px 1px  rgba(0 0 0 .3);
+}
+.btn:hover {
+  cursor: pointer;
+  opacity: .8;
+}
+
+input[type='file'] {
+  display: none;
 }
