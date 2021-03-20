@@ -2,6 +2,10 @@ export function upload(selector, options = {}) {
   const input = document.querySelector(selector);
   if (input === null) return;
 
+  const preview = document.createElement('div');
+  preview.classList.add('preview');
+
+
   const openBtn = document.createElement('button');
   openBtn.classList.add('btn');
   openBtn.textContent = 'Open';
@@ -14,6 +18,7 @@ export function upload(selector, options = {}) {
     input.setAttribute('accept', options.accept.join(','))
   }
 
+  input.insertAdjacentElement('afterend', preview);
   input.insertAdjacentElement('afterend', openBtn);
 
   function triggerInputFile() {
@@ -24,13 +29,20 @@ export function upload(selector, options = {}) {
     if (!event.target.files.length) return;
 
     const files = Array.from(event.target.files);
+
+    preview.textContent = '';
     files.forEach(file => {
       if (!file.type.match('image')) return;
 
       const reader = new FileReader(file);
 
       reader.onload = event => {
-        input.insertAdjacentHTML('afterend', `<img src="${event.target.result}"></img>`)
+        const src = event.target.result;
+        preview.insertAdjacentHTML('afterbegin', `
+          <div class="preview-item">
+            <img src="${src}" alt="${file.name}"> </img>
+          </div>
+        `);
       }
 
       reader.readAsDataURL(file);
