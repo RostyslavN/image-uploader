@@ -40,7 +40,12 @@ export function upload(selector, options = {}) {
         const src = event.target.result;
         preview.insertAdjacentHTML('afterbegin', `
           <div class="preview-item">
+            <div class="preview-remove">&times;</div>
             <img src="${src}" alt="${file.name}"> </img>
+            <div class="preview-info">
+              <span title="${file.name}">${truncate(file.name, 15)}</span>
+              <span>${file.size}</span>
+            </div>
           </div>
         `);
       }
@@ -52,4 +57,10 @@ export function upload(selector, options = {}) {
 
   openBtn.addEventListener('click', triggerInputFile);
   input.addEventListener('change', inputChangeHandler);
+}
+
+function truncate(string, maxAllowedNumber) {
+  return (string.length > maxAllowedNumber)
+    ? string.substr(0, maxAllowedNumber - 1) + '&hellip;'
+    : string;
 }

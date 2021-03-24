@@ -14,7 +14,7 @@ body {
   border-radius: 6px;
   background: #fff;
   padding: 1rem;
-  box-shadow: 2px 3px 10px rgba(0 0 0 .2);
+  box-shadow: 2px 3px 10px rgba(0, 0, 0, .2);
 }
 .btn {
   color: #42b983;
@@ -36,7 +36,7 @@ body {
   color: #fff;
 }
 .btn:active {
-  box-shadow: inset 1px 1px 1px  rgba(0 0 0 .3);
+  box-shadow: inset 1px 1px 1px  rgba(0, 0, 0, .3);
 }
 .btn:hover {
   cursor: pointer;
@@ -51,14 +51,57 @@ input[type='file'] {
   display: flex;
   flex-wrap: wrap;
   padding: .5rem;
+  font-size: 0;
 }
 .preview-item {
   margin-right: .5rem;
   margin-bottom: .5rem;
   position: relative;
+  overflow: hidden;
+}
+.preview-item:hover .preview-remove {
+  opacity: 1;
 }
 
 .preview-item img {
   width: 180px;
   height: auto;
+}
+
+.preview-remove {
+  opacity: 0;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 1rem;
+  font-weight: bold;
+  background: rgba(255, 255, 255, .5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity .22s;
+}
+.preview-remove:hover {
+  cursor: pointer;
+}
+
+.preview-info {
+  height: 25px;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: -25px;
+  font-size: .8rem;
+  background: rgba(255, 255, 255, .5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5px;
+  transition: bottom .22s;
+  user-select: none;
+}
+.preview-item:hover .preview-info {
+  bottom: 0;
 }
