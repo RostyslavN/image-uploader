@@ -40,11 +40,11 @@ export function upload(selector, options = {}) {
         const src = event.target.result;
         preview.insertAdjacentHTML('afterbegin', `
           <div class="preview-item">
-            <div class="preview-remove">&times;</div>
+            <div class="preview-remove" data-name="${file.name}">&times;</div>
             <img src="${src}" alt="${file.name}"> </img>
             <div class="preview-info">
               <span title="${file.name}">${truncate(file.name, 15)}</span>
-              <span>${file.size}</span>
+              <span>${formateBytes(file.size)}</span>
             </div>
           </div>
         `);
@@ -63,4 +63,14 @@ function truncate(string, maxAllowedNumber) {
   return (string.length > maxAllowedNumber)
     ? string.substr(0, maxAllowedNumber - 1) + '&hellip;'
     : string;
+}
+
+function formateBytes(bytes) {
+  if (bytes === 0) return '0 Bytes';
+
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  const marker = 1024;
+  const decimal = 2;
+  const sizeIndex = Math.floor(Math.log(bytes) / Math.log(marker));
+  return Math.round(bytes / Math.pow(marker, sizeIndex), decimal) + ' ' + sizes[sizeIndex];
 }
