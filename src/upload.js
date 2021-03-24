@@ -1,5 +1,6 @@
 export function upload(selector, options = {}) {
   const input = document.querySelector(selector);
+  let files = [];
   if (input === null) return;
 
   const preview = document.createElement('div');
@@ -28,7 +29,7 @@ export function upload(selector, options = {}) {
   function inputChangeHandler(event) {
     if (!event.target.files.length) return;
 
-    const files = Array.from(event.target.files);
+    files = Array.from(event.target.files);
 
     preview.textContent = '';
     files.forEach(file => {
@@ -49,14 +50,29 @@ export function upload(selector, options = {}) {
           </div>
         `);
       }
-
       reader.readAsDataURL(file);
     });
     
   }
 
+  function removeImageHadler(event) {
+    const targetName = event.target.dataset.name;
+    if (!targetName) return;
+
+    files = files.filter(file => file.name !== targetName);
+    const imageBlock = preview
+      .querySelector(`[data-name="${targetName}"]`)
+      .closest('.preview-item');
+
+    imageBlock.classList.add('deleting');
+    imageBlock.addEventListener('transitionend', () => {
+      imageBlock.remove();
+    });
+  }
+
   openBtn.addEventListener('click', triggerInputFile);
   input.addEventListener('change', inputChangeHandler);
+  preview.addEventListener('click', removeImageHadler);
 }
 
 function truncate(string, maxAllowedNumber) {
