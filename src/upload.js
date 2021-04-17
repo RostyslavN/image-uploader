@@ -1,15 +1,12 @@
 export function upload(selector, options = {}) {
   const input = document.querySelector(selector);
-  let files = [];
   if (input === null) return;
 
-  const preview = document.createElement('div');
-  preview.classList.add('preview');
-
-
-  const openBtn = document.createElement('button');
-  openBtn.classList.add('btn');
-  openBtn.textContent = 'Open';
+  let files = [];
+  const onUpload = options.onUpload ?? noop;
+  const preview = createElement('div', ['preview']);
+  const openBtn = createElement('button', ['btn'], 'Open');
+  const uploadBtn = createElement('button', ['btn', 'primary', 'invisible'], 'Upload');
 
   if (options.multi) {
     input.setAttribute('multiple', true);
@@ -20,6 +17,7 @@ export function upload(selector, options = {}) {
   }
 
   input.insertAdjacentElement('afterend', preview);
+  input.insertAdjacentElement('afterend', uploadBtn);
   input.insertAdjacentElement('afterend', openBtn);
 
   function triggerInputFile() {
@@ -50,6 +48,7 @@ export function upload(selector, options = {}) {
           </div>
         `);
       }
+      uploadBtn.classList.remove('invisible');
       reader.readAsDataURL(file);
     });
     
@@ -60,6 +59,7 @@ export function upload(selector, options = {}) {
     if (!targetName) return;
 
     files = files.filter(file => file.name !== targetName);
+    if (!files.length) uploadBtn.classList.add('invisible');
     const imageBlock = preview
       .querySelector(`[data-name="${targetName}"]`)
       .closest('.preview-item');
@@ -70,9 +70,24 @@ export function upload(selector, options = {}) {
     });
   }
 
+  function clearPreview(block) {
+    block.style.bottom = 0;
+    block.innerHTML = '<div class="preview-info-progress"></div>'
+  }
+
+  function uploadImagesHander() {
+    preview.querySelectorAll('.preview-remove').forEach(remover => remover.remove());
+    const previewInfoBlocks = preview.querySelectorAll('.preview-info');
+    previewInfoBlocks.forEach(block => {
+      clearPreview(block);
+    });
+    onUpload(files, previewInfoBlocks);
+  }
+
   openBtn.addEventListener('click', triggerInputFile);
   input.addEventListener('change', inputChangeHandler);
   preview.addEventListener('click', removeImageHadler);
+  uploadBtn.addEventListener('click', uploadImagesHander);
 }
 
 function truncate(string, maxAllowedNumber) {
@@ -90,3 +105,16 @@ function formateBytes(bytes) {
   const sizeIndex = Math.floor(Math.log(bytes) / Math.log(marker));
   return Math.round(bytes / Math.pow(marker, sizeIndex), decimal) + ' ' + sizes[sizeIndex];
 }
+
+function createElement(tag, classes = [], textContent) {
+  const element = document.createElement(tag);
+
+  if (classes.length) {
+    element.classList.add(...classes);
+  }
+  element.textContent = textContent ? textContent : '';
+
+  return element;
+}
+
+function noop() {}

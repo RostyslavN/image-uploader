@@ -4,3 +4,9 @@
 # compiled output
 /dist
 /.cache
+
+#firebase
+/storage.rules
+/.firebaserc
+/firebase.json
+/firebase.config.js
